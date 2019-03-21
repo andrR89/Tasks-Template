@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.devmasterteam.tasks.R;
 import com.devmasterteam.tasks.entities.TaskEntity;
+import com.devmasterteam.tasks.listener.TaskListInterationListener;
 import com.devmasterteam.tasks.viewholder.TaskViewHolder;
 
 import java.util.List;
@@ -15,11 +16,14 @@ import java.util.List;
 public class TaskListAdapter extends RecyclerView.Adapter<TaskViewHolder> {
 
     private List<TaskEntity> mListTaskEntities;
+    private TaskListInterationListener taskListListener;
 
     /**
      * Construtor
      */
-    public TaskListAdapter(List<TaskEntity> taskList) {
+    public TaskListAdapter(List<TaskEntity> taskList, TaskListInterationListener taskListListener) {
+        this.mListTaskEntities = taskList;
+        this.taskListListener = taskListListener;
     }
 
     @Override
@@ -36,11 +40,18 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskViewHolder> {
 
     @Override
     public void onBindViewHolder(TaskViewHolder holder, int position) {
+        TaskEntity entity = this.mListTaskEntities.get(position);
+        holder.bindData(entity, taskListListener);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return this.mListTaskEntities.size();
+    }
+
+    public void reloadList(List<TaskEntity> list){
+        this.mListTaskEntities = list;
+        notifyDataSetChanged();
     }
 
 }

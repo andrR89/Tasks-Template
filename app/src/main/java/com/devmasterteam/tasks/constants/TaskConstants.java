@@ -4,6 +4,7 @@ import android.content.Intent;
 
 public class TaskConstants {
 
+
     public static class HEADER {
         public static final String TOKEN_KEY = "token";
         public static final String PERSON_KEY = "personkey";
@@ -49,9 +50,29 @@ public class TaskConstants {
     }
 
     public static class API_PARAMETER {
+        public static final String ID = "id";
+        public static final String PRIORITYID = "priorityid";
+        public static final String DESCRIPTION = "description";
+        public static final String DUEDATE = "duedate";
+        public static final String COMPLETE = "complete";
         public static final String NAME = "name";
         public static final String EMAIL = "email";
         public static final String PASSWORD = "password";
         public static final String RECEIVE_NEWS = "receivenews";
     }
+
+
+    public static class TASK_FILTER {
+
+        public static final String KEY = "taskfilterkey";
+
+        public enum VALUES {
+            NO_FILTER, OVERDUE, NEXT_7_DAYS
+        }
+    }
+
+    public static class BUNDLE{
+        public static final String TASK_ID = "taskID";
+    }
+
 }

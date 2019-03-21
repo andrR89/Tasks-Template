@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.devmasterteam.tasks.R;
@@ -45,7 +47,7 @@ public class TaskListFragment extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(getArguments() != null){
+        if (getArguments() != null) {
             this.filter = getArguments().getInt(TaskConstants.TASK_FILTER.KEY);
         }
     }
@@ -61,7 +63,8 @@ public class TaskListFragment extends Fragment implements View.OnClickListener {
         this.taskManager = new TaskManager(this.mContext);
 
         // Inicializa elementos
-        this.mViewHolder.floatAddTask = (FloatingActionButton) rootView.findViewById(R.id.float_add_task);
+        this.mViewHolder.floatAddTask = rootView.findViewById(R.id.float_add_task);
+        this.mViewHolder.floatMenu = rootView.findViewById(R.id.float_menu_button);
 
         // Listner Listagem
         this.taskListListener = new TaskListInterationListener() {
@@ -94,6 +97,7 @@ public class TaskListFragment extends Fragment implements View.OnClickListener {
 
         // Inicializa eventos
         this.mViewHolder.floatAddTask.setOnClickListener(this);
+        this.mViewHolder.floatMenu.setOnClickListener(this);
 
         // 1 - Obter a recyclerview
         this.mViewHolder.recylerTaskList = (RecyclerView) rootView.findViewById(R.id.recycler_task_list);
@@ -116,7 +120,7 @@ public class TaskListFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    private void getTasks(){
+    private void getTasks() {
         this.mTaskEntityList = new ArrayList<>();
         this.taskManager.getList(this.filter, this.taskLoadedListner());
     }
@@ -126,51 +130,75 @@ public class TaskListFragment extends Fragment implements View.OnClickListener {
         int id = view.getId();
         if (id == R.id.float_add_task) {
             startActivity(new Intent(this.mContext, TaskFormActivity.class));
+        } else if (id == R.id.float_menu_button) {
+            boolean visibilit = this.mViewHolder.floatAddTask.getVisibility() == View.VISIBLE;
+
+            if(!visibilit){
+                Animation animationHide = AnimationUtils.loadAnimation(this.mContext, R.anim.float_menu_show);
+                this.mViewHolder.floatAddTask.startAnimation(animationHide);
+                this.mViewHolder.floatAddTask.setVisibility(View.VISIBLE);
+
+            }else{
+                Animation animationShow = AnimationUtils.loadAnimation(this.mContext, R.anim.float_menu_hide);
+                this.mViewHolder.floatAddTask.startAnimation(animationShow);
+                this.mViewHolder.floatAddTask.setVisibility(View.GONE);
+            }
+
         }
     }
 
-    private OperationListener taskLoadedListner(){
-        return new OperationListener<List<TaskEntity>>(){
+    private OperationListener taskLoadedListner() {
+        return new OperationListener<List<TaskEntity>>() {
 
             @Override
-            public void onSuccess(List<TaskEntity> result){
+            public void onSuccess(List<TaskEntity> result) {
                 mTaskEntityList.addAll(result);
                 mTaskListAdapter.reloadList(mTaskEntityList);
+
+                int completes = 0;
+                for (TaskEntity entity : result) {
+                    if (entity.Complete) {
+                        completes++;
+                    }
+                }
+
+                // Permite chamar activits
+                ((MainActivity) getActivity()).getCounts(completes, result.size());
             }
 
             @Override
-            public void onError(int errorCode, String errorMessage){
+            public void onError(int errorCode, String errorMessage) {
                 Toast.makeText(mContext, errorMessage, Toast.LENGTH_LONG).show();
             }
         };
     }
 
-    private OperationListener taskUpdateListener(){
-        return new OperationListener<Boolean>(){
+    private OperationListener taskUpdateListener() {
+        return new OperationListener<Boolean>() {
 
             @Override
-            public void onSuccess(Boolean result){
+            public void onSuccess(Boolean result) {
                 getTasks();
             }
 
             @Override
-            public void onError(int errorCode, String errorMessage){
+            public void onError(int errorCode, String errorMessage) {
                 Toast.makeText(mContext, errorMessage, Toast.LENGTH_LONG).show();
             }
         };
     }
 
-    private OperationListener taskDeletedListener(){
-        return new OperationListener<Boolean>(){
+    private OperationListener taskDeletedListener() {
+        return new OperationListener<Boolean>() {
 
             @Override
-            public void onSuccess(Boolean result){
+            public void onSuccess(Boolean result) {
                 Toast.makeText(mContext, R.string.tarefa_removida_com_sucesso, Toast.LENGTH_LONG).show();
                 getTasks();
             }
 
             @Override
-            public void onError(int errorCode, String errorMessage){
+            public void onError(int errorCode, String errorMessage) {
                 Toast.makeText(mContext, errorMessage, Toast.LENGTH_LONG).show();
             }
         };
@@ -181,6 +209,7 @@ public class TaskListFragment extends Fragment implements View.OnClickListener {
      */
     private static class ViewHolder {
         private FloatingActionButton floatAddTask;
+        private FloatingActionButton floatMenu;
         private RecyclerView recylerTaskList;
     }
 }

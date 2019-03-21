@@ -7,6 +7,30 @@
     android:orientation="vertical"
     tools:context="com.devmasterteam.tasks.views.RegisterActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimaryDark">
+
+        <ImageView
+            android:id="@+id/image_toolbar_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:src="@drawable/ic_arrow_back"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textAlignment="center"
+            android:textColor="@color/colorDefaultBackground"
+            android:textStyle="bold"
+            android:text="@string/cadastrar_usuario"/>
+
+    </RelativeLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -26,6 +50,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:hint="@string/nome"
+                style="@style/mGrayEditText"
+                android:drawableLeft="@drawable/ic_name"
                 android:inputType="textPersonName" />
 
             <EditText
@@ -33,6 +59,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
+                style="@style/mGrayEditText"
+                android:drawableLeft="@drawable/ic_mail"
                 android:inputType="textEmailAddress" />
 
             <EditText
@@ -40,6 +68,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/senha"
+                style="@style/mGrayEditText"
+                android:drawableLeft="@drawable/ic_lock"
                 android:inputType="textPassword" />
 
 
@@ -48,6 +78,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="90dp"
+                style="@style/mDefaultButton"
+                android:layout_gravity="center"
                 android:text="@string/cadastrar" />
 
         </LinearLayout>

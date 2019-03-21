@@ -60,10 +60,13 @@ public class TaskFormActivity extends AppCompatActivity implements View.OnClickL
         this.mViewHolder.buttonDate = (Button) this.findViewById(R.id.button_date);
         this.mViewHolder.buttonSave = (Button) this.findViewById(R.id.button_save);
         this.mViewHolder.progressDialog = new ProgressDialog(this);
+        this.mViewHolder.imageBack = (ImageView) this.findViewById(R.id.image_toolbar_back);
+        this.mViewHolder.formHeader = (TextView) this.findViewById(R.id.text_task_form_header);
 
         // Atribui eventos
         this.mViewHolder.buttonSave.setOnClickListener(this);
         this.mViewHolder.buttonDate.setOnClickListener(this);
+        this.mViewHolder.imageBack.setOnClickListener(this);
 
         this.loadPriorities();
         this.loadDataFromActivity();
@@ -79,6 +82,8 @@ public class TaskFormActivity extends AppCompatActivity implements View.OnClickL
             this.handleSave();
         } else if (id == R.id.button_date) {
             this.showDatePicker();
+        } else if (id == R.id.image_toolbar_back) {
+            super.onBackPressed();
         }
     }
 
@@ -211,7 +216,10 @@ public class TaskFormActivity extends AppCompatActivity implements View.OnClickL
 
             if(this.taskID !=  0){
                 this.taskManager.get(taskID, this.taskLoadedListener());
+                this.mViewHolder.formHeader.setText(R.string.atualizar_tarefa);
             }
+        } else{
+            this.mViewHolder.formHeader.setText(R.string.adicionar_nova_tarefa);
         }
     }
 
@@ -225,5 +233,7 @@ public class TaskFormActivity extends AppCompatActivity implements View.OnClickL
         private Button buttonDate;
         private Button buttonSave;
         private ProgressDialog progressDialog;
+        private ImageView imageBack;
+        private TextView formHeader;
     }
 }

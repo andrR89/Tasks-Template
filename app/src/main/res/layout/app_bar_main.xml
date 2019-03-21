@@ -8,23 +8,85 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="130dp"
+        android:backgroundTint="@color/colorPrimaryDark">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:background="@android:color/transparent"/>
+
+        <TextView
+            android:id="@+id/text_hello"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="80dp"
+            android:textColor="#f6f6f6"
+            android:textSize="20sp"
+            android:text="Oi user"/>
+
+        <TextView
+            android:id="@+id/text_date_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#f6f6f6"
+            android:paddingLeft="80dp"
+            android:text="Domingo vai pra puta q pario"/>
 
     </android.support.design.widget.AppBarLayout>
 
-    <!--Conteúdo-->
-    <FrameLayout
-        android:id="@+id/frame_content"
+    <LinearLayout
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#f6f6f6">
+
+            <TextView
+                android:id="@+id/text_task_count"
+                android:text="X Tarefas encontradas"
+                android:layout_width="0dp"
+                android:padding="12dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="#C4C4C4"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_width="1dp"
+                android:background="#D9d9d9"
+                android:layout_height="match_parent"
+                />
+
+            <TextView
+                android:id="@+id/text_task_complete"
+                android:text="X Tarefas concluidas"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="#C4C4C4"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <!--Conteúdo-->
+        <FrameLayout
+            android:id="@+id/frame_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </LinearLayout>
+
+
 
 </android.support.design.widget.CoordinatorLayout>

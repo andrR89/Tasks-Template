@@ -33,9 +33,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         this.mViewHolder.editEmail = (EditText) this.findViewById(R.id.edit_email);
         this.mViewHolder.editPassword = (EditText) this.findViewById(R.id.edit_password);
         this.mViewHolder.buttonSave = (Button) this.findViewById(R.id.button_save);
+        this.mViewHolder.imageBack = (ImageView) this.findViewById(R.id.image_toolbar_back);
 
         // Inicializa eventos
         this.mViewHolder.buttonSave.setOnClickListener(this);
+        this.mViewHolder.imageBack.setOnClickListener(this);
     }
 
     @Override
@@ -43,6 +45,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         int id = view.getId();
         if (id == R.id.button_save) {
             this.handleSave();
+        } else if (id == R.id.image_toolbar_back) {
+            super.onBackPressed();
         }
     }
 

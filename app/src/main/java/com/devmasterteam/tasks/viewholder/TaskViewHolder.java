@@ -3,6 +3,7 @@ package com.devmasterteam.tasks.viewholder;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -44,6 +45,7 @@ public class TaskViewHolder extends RecyclerView.ViewHolder {
 
         if(entity.Complete){
             this.mImageTask.setImageResource(R.drawable.ic_done);
+            this.mTextDescription.setTextColor(Color.GRAY);
         } else{
             this.mImageTask.setImageResource(R.drawable.ic_todo);
         }

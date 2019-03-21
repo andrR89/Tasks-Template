@@ -7,6 +7,31 @@
     android:orientation="vertical"
     tools:context="com.devmasterteam.tasks.views.TaskFormActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimaryDark">
+
+        <ImageView
+            android:id="@+id/image_toolbar_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:src="@drawable/ic_arrow_back"/>
+
+        <TextView
+            android:id="@+id/text_task_form_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textAlignment="center"
+            android:text="COCO"
+            android:textColor="@color/colorDefaultBackground"
+            android:textStyle="bold"/>
+
+    </RelativeLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -24,6 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/descricao"
+                style="@style/mGrayEditText"
                 android:lines="2" />
 
             <View
@@ -39,6 +65,7 @@
                 android:text="@string/prioridade" />
 
             <Spinner
+                style="@style/mSpinnerItemStyle"
                 android:id="@+id/spinner_priority"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -54,8 +81,9 @@
                 android:id="@+id/check_complete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
                 android:paddingLeft="10dp"
+                style="@style/mGrayTextView"
+                android:button="@drawable/checkbox_complete"
                 android:text="@string/completa"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -70,7 +98,8 @@
                 android:id="@+id/button_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
+                style="@style/mGrayTextView"
+                android:textColorHint="@color/colorGray"
                 android:background="@android:color/transparent"
                 android:gravity="center_vertical"
                 android:hint="@string/clique_para_selecionar_a_data" />
@@ -85,9 +114,11 @@
 
             <Button
                 android:id="@+id/button_save"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="60dp"
+                style="@style/mDefaultButton"
                 android:text="@string/adicionar_tarefa" />
 
         </LinearLayout>

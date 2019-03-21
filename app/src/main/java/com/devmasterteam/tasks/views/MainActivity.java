@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.devmasterteam.tasks.R;
@@ -24,19 +25,30 @@ import com.devmasterteam.tasks.infra.SecurityPreferences;
 import com.devmasterteam.tasks.infra.operation.OperationListener;
 import com.devmasterteam.tasks.manager.PriorityManager;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private ViewHolder mViewHolder = new ViewHolder();
     private PriorityManager priorityManager;
     private Context context;
+    private SecurityPreferences securityPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.context = this;
+
+        this.mViewHolder.textHello = (TextView) findViewById(R.id.text_hello);
+        this.mViewHolder.textDateDescription = (TextView) findViewById(R.id.text_date_description);
+        this.mViewHolder.textTaskComplete = (TextView) findViewById(R.id.text_task_complete);
+        this.mViewHolder.textTaskCount = (TextView) findViewById(R.id.text_task_count);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -46,8 +58,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        this.securityPreferences = new SecurityPreferences(this);
+
         this.priorityManager = new PriorityManager(this);
         this.initialLoad();
+        this.getUserData();
 
         // Incia a fragment padrão
         this.startDefaultFragment();
@@ -137,9 +152,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentManager.beginTransaction().replace(R.id.frame_content, fragment).commit();
     }
 
+
+    private void getUserData() {
+
+        String user = this.securityPreferences.getStoredString(TaskConstants.USER.NAME);
+
+        this.mViewHolder.textHello.setText(String.format("Olá, %s!", user));
+        this.mViewHolder.textDateDescription.setText(new SimpleDateFormat("EEEE, dd 'de' MMM 'de' yyyy").format(new Date()));
+
+        NavigationView nav = (NavigationView) findViewById(R.id.nav_view);
+        View view = nav.getHeaderView(0);
+
+        TextView name = (TextView) view.findViewById(R.id.text_name);
+        TextView email = (TextView) view.findViewById(R.id.text_email);
+
+        name.setText(user);
+        email.setText(this.securityPreferences.getStoredString(TaskConstants.USER.EMAIL));
+    }
+
+    public void getCounts(int complete, int total) {
+        this.mViewHolder.textTaskCount.setText("Tarefas encontradas: "+ total);
+        this.mViewHolder.textTaskComplete.setText("Tarefas concluidas: "+ complete);
+    }
+
     /**
      * ViewHolder
      */
     private static class ViewHolder {
+        TextView textHello;
+        TextView textDateDescription;
+        TextView textTaskComplete;
+        TextView textTaskCount;
     }
 }
